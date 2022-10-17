@@ -1,7 +1,28 @@
-import { TextInput, View, StyleSheet } from "react-native";
+import { useState } from "react";
+import { TextInput, View, StyleSheet, Alert } from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
 
 function StartGameScreen() {
+    const [enteredNumber, setEnteredNumber] = useState('');
+
+    function numberInputHandler(enteredText) {
+        setEnteredNumber(enteredText);
+    }
+
+    function resetInputHandler() {
+        setEnteredNumber('');
+    }
+    function confirmInputHandler() {
+        const chosenNumber = parseInt(enteredNumber);
+
+        if (isNaN(chosenNumber) || chosenNumber <= 0 || chosenNumber > 99) {
+            // SHOW ALERT
+            Alert.alert('Invalid number', 'Number has to be between 1 and 99', [{ text: 'Okay', style: "destructive", onPress: resetInputHandler }]);
+            return;
+        }
+
+    }
+
     return (
         <View style={styles.inputContainer}>
             <TextInput
@@ -10,27 +31,19 @@ function StartGameScreen() {
                 keyboardType="number-pad"
                 autoCapitalize="none"
                 autoCorrect={false}
+                onChangeText={numberInputHandler}
+                value={enteredNumber}
             />
             <View style={styles.buttonsContainer}>
                 <View style={styles.buttonContainer}>
-                    <PrimaryButton>Reset</PrimaryButton>
+                    <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
                 </View>
                 <View style={styles.buttonContainer}>
-                    <PrimaryButton>
+                    <PrimaryButton onPress={confirmInputHandler}>
                         Confirm</PrimaryButton>
                 </View>
             </View>
         </View>
-        //     <View style={styles.buttonsSection}>
-        //         <View style={styles.buttonsContainer}>
-        //             <PrimaryButton>Reset</PrimaryButton>
-        //         </View>
-        //         <View style={styles.buttonsContainer}>
-        //             <PrimaryButton>
-        //                 Confirm</PrimaryButton>
-        //         </View>
-        //     </View>
-        // </View>
     )
 }
 

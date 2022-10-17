@@ -1,16 +1,14 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
 
-function PrimaryButton({ children }) {
+function PrimaryButton({ children, onPress }) {
     // {children} is to get the props directly instead of props.childer just put the curly brackets
-    function onPressHandler() {
-        console.log('Pressed');
-    }
+
     return (
         <View
             style={styles.buttonOuterContainer}
         >
             <Pressable
-                onPress={onPressHandler}
+                onPress={onPress}
                 android_ripple={{ color: '#85174e' }}
                 style={({ pressed }) => pressed ? [styles.buttonInnerContainer, styles.pressed] : styles.buttonInnerContainer}
             >
