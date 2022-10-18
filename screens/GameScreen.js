@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, VirtualizedList, Alert } from 'react-native';
+import Card from '../components/game/Card';
 import NumberContainer from '../components/game/NumberContainer';
+import InstructionText from '../components/ui/InstructionText';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Title from '../components/ui/Title';
-
+import { Feather } from '@expo/vector-icons';
 function generateRandomBetween(min, max, exclude) {
     const rndNum = Math.floor(Math.random() * (max - min) + min);
     if (rndNum == exclude) {
@@ -23,8 +25,8 @@ function GameScreen({ userNumber, onGameOver }) {
         userNumber
     );
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
-    useEffect(() => { 
-        if(currentGuess === userNumber){
+    useEffect(() => {
+        if (currentGuess === userNumber) {
             onGameOver();
         }
     }, [currentGuess, userNumber, onGameOver]);
@@ -56,13 +58,23 @@ function GameScreen({ userNumber, onGameOver }) {
         <View style={style.screen}>
             <Title>Opponent's Guess</Title>
             <NumberContainer>{currentGuess}</NumberContainer>
-            <View>
-                <Text>Higher or Lower?</Text>
-                <View>
-                    <PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')}>-</PrimaryButton>
-                    <PrimaryButton onPress={nextGuessHandler.bind(this, 'greater')}>+</PrimaryButton>
+            <Card>
+                <View style={style.container}>
+                    <InstructionText style={style.instructionText}>Higher or lower?</InstructionText>
+                    <View style={style.buttons}>
+                        <View style={style.buttonContainer}>
+                            <PrimaryButton onPress={nextGuessHandler.bind(this, 'greater')}>
+                                <Feather name='plus' size={25} color='white' />
+                            </PrimaryButton>
+                        </View>
+                        <View style={style.buttonContainer}>
+                            <PrimaryButton onPress={nextGuessHandler.bind(this, 'lower')}>
+                                <Feather name='minus' size={25} color='white' />
+                            </PrimaryButton>
+                        </View>
+                    </View>
                 </View>
-            </View>
+            </Card>
         </View>
 
     );
@@ -76,4 +88,19 @@ const style = StyleSheet.create({
         padding: 24,
         marginTop: 35,
     },
+    container: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    // PASSING STYLE AS A PROP
+    instructionText: {
+        marginBottom: 12,
+    },
+    buttons: {
+        flexDirection: 'row',
+    },
+    buttonContainer: {
+        flex: 1,
+    }
 });

@@ -1,15 +1,38 @@
 import { ImageBackground, StyleSheet, SafeAreaView } from 'react-native';
 import StartGameScreen from './screens/StartGameScreen';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import GameScreen from './screens/GameScreen';
 import Colors from './constants/colors';
 import GameOverScreen from './screens/GameOverScreen';
+import { useFonts } from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+
+
+
+SplashScreen.preventAutoHideAsync();
 
 export default function App() {
 
   const [userNumber, setUserNumber] = useState();
   const [gameIsOver, setGameIsOver] = useState(true);
+
+
+
+  const [fontsLoaded] = useFonts({
+    'OpenSans-Regular': require('./assets/fonts/OpenSans-Regular.ttf'),
+    'OpenSans-Bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null;
+  }
 
   function pickedNumberHandler(pickedNumber) {
     setUserNumber(pickedNumber);
@@ -33,8 +56,10 @@ export default function App() {
     screen = <GameOverScreen />;
   }
 
+
+
   return (
-    <LinearGradient colors={[Colors.primaryBG, Colors.secondaryBG]} style={styles.rootScreen}>
+    <LinearGradient onLayout={onLayoutRootView} colors={[Colors.primaryBG, Colors.secondaryBG]} style={styles.rootScreen}>
       <ImageBackground
         source={require('./assets/images/background.png')}
         resizeMode='cover'
