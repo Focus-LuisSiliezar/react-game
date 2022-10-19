@@ -1,4 +1,4 @@
-import { Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, Dimensions } from 'react-native';
 
 function Title({ children }) {
     return <Text style={style.title}>{children}</Text>
@@ -6,7 +6,7 @@ function Title({ children }) {
 }
 export default Title;
 
-
+ const deviceWidth = Dimensions.get('window').width;
 const style = StyleSheet.create({
     title: {
         fontFamily: 'OpenSans-Bold',
@@ -18,5 +18,6 @@ const style = StyleSheet.create({
         padding: 12,
         maxWidth: '80%',
         width: 300,
+        marginBottom:  deviceWidth < 380 ? 12 :24,
     }
 });

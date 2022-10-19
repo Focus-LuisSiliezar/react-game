@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, VirtualizedList, Alert, FlatList } from 'react-native';
+import { Dimensions, View, StyleSheet, VirtualizedList, Alert, FlatList } from 'react-native';
 import Card from '../components/game/Card';
 import NumberContainer from '../components/game/NumberContainer';
 import InstructionText from '../components/ui/InstructionText';
 import PrimaryButton from '../components/ui/PrimaryButton';
 import Title from '../components/ui/Title';
 import { Feather } from '@expo/vector-icons';
-import { useFonts } from 'expo-font';
 import GuessLogItem from '../components/game/GuessLogItem';
 function generateRandomBetween(min, max, exclude) {
     const rndNum = Math.floor(Math.random() * (max - min) + min);
@@ -97,12 +96,12 @@ function GameScreen({ userNumber, onGameOver }) {
 }
 
 export default GameScreen;
-
+const deviceWidth = Dimensions.get('window').width;
 const style = StyleSheet.create({
     screen: {
         flex: 1,
         padding: 24,
-        marginTop: 35,
+        marginTop:  deviceWidth < 380 ? 18 :36,
         alignItems: 'center'
     },
     container: {

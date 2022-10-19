@@ -12,7 +12,6 @@ export default Card;
 
 const styles = StyleSheet.create({
     inputContainer: {
-        marginTop: 100,
         marginHorizontal: 24,
         borderRadius: 8,
         padding: 16,
