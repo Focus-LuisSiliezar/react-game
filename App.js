@@ -16,7 +16,7 @@ export default function App() {
 
   const [userNumber, setUserNumber] = useState();
   const [gameIsOver, setGameIsOver] = useState(true);
-
+  const [guessRounds, setGuessRounds] = useState(0);
 
 
   const [fontsLoaded] = useFonts({
@@ -39,8 +39,15 @@ export default function App() {
     setGameIsOver(false);
   }
 
-  function gameOverHandler() {
+  function gameOverHandler(numberOfRounds) {
     setGameIsOver(true);
+    setGuessRounds(numberOfRounds);
+
+  }
+
+  function startNewGameHandler() {
+    setUserNumber(null);
+    setGuessRounds(0);
   }
 
   let screen = <StartGameScreen onPickedNumber={pickedNumberHandler} />;
@@ -53,10 +60,12 @@ export default function App() {
   }
 
   if (gameIsOver && userNumber) {
-    screen = <GameOverScreen />;
+    screen = <GameOverScreen
+      onStartNewGame={startNewGameHandler}
+      roundsNumber={guessRounds}
+      userNumber={userNumber}
+    />;
   }
-
-
 
   return (
     <LinearGradient onLayout={onLayoutRootView} colors={[Colors.primaryBG, Colors.secondaryBG]} style={styles.rootScreen}>

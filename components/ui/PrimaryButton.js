@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     buttonInnerContainer: {
         backgroundColor: Colors.primary,
         paddingVertical: 8,
-        // paddingHorizontal: 12,
+        paddingHorizontal: 12,
         elevation: 2,
     },
     buttonText: {
